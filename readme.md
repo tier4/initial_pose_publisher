@@ -24,4 +24,4 @@ Parameters
 | Name | Type | Description | Default value |
 |------|------|-------------|---------------|
 | ~pose_x, ~pose_y, ~pose_z, ~pose_yaw | float64 | initial pose in specified frame (Must specify) | - |
-| ~frame_id | string | frame id | base_link |
+| ~frame_id | string | frame id | world |

@@ -25,7 +25,7 @@ InitialPosePublisher::InitialPosePublisher() : private_nh_("~"), wait_for_publis
 {
   // Get parameters
   // header
-  pose_to_publish_.header.frame_id = private_nh_.param<std::string>("frame_id", "base_link");
+  pose_to_publish_.header.frame_id = private_nh_.param<std::string>("frame_id", "world");
   // position
   pose_to_publish_.pose.pose.position.x = private_nh_.param<double>("pose_x", 0.0);
   pose_to_publish_.pose.pose.position.y = private_nh_.param<double>("pose_y", 0.0);
