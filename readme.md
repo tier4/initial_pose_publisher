@@ -6,7 +6,7 @@ The node that publish initial pose by rosparam when it launched.
 Description
 -----------------------
 
-* The node publishes initialpose when it launched if all parameters are set.
+* The node publishes initialpose when it launched if all pose parameters are set.
 * If one or more pose parameters are lacking, it won't publish.
 * The node waits to publish initialpose atleast one node subscribes it.
 
