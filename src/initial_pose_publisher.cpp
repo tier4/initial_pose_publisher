@@ -49,40 +49,28 @@ InitialPosePublisher::InitialPosePublisher() : private_nh_("~"), wait_for_publis
   pose_to_publish_.pose.covariance[14] = 0.0;                            // cov of z
   pose_to_publish_.pose.covariance[35] = (M_PI / 12.0) * (M_PI / 12.0);  // cov of yaw
 
-  // Publish once
+  // Advertise
+  initial_pose_publisher_ = private_nh_.advertise<geometry_msgs::PoseWithCovarianceStamped>("/initialpose", 1, true);
+
+  // Check params
   bool has_valid_param = private_nh_.hasParam("pose_x") && private_nh_.hasParam("pose_y") &&
                          private_nh_.hasParam("pose_z") && private_nh_.hasParam("pose_yaw");
+
+  // Publish once
   if (has_valid_param)
   {
-    wait_for_publish_ = true;
+    initial_pose_publisher_.publish(pose_to_publish_);
   }
   else
   {
-    // Won't publish initialpose if param is not set.
-    wait_for_publish_ = false;
-    ROS_WARN("[initial_pose_publisher] Parameter is not set. Won't publish initialpose.");
+    // Won't publish initialpose if pose is not set.
+    ROS_WARN("[initial_pose_publisher] One or more pose parameters are not set. Won't publish initialpose.");
   }
-
-  // Advertise
-  initial_pose_publisher_ = private_nh_.advertise<geometry_msgs::PoseWithCovarianceStamped>("/initialpose", 1);
 }
 
 void InitialPosePublisher::run()
 {
-  ros::Rate r(10);
-  while (ros::ok())
-  {
-    if (wait_for_publish_)
-    {
-      if (initial_pose_publisher_.getNumSubscribers() > 0)
-      {
-        initial_pose_publisher_.publish(pose_to_publish_);
-        wait_for_publish_ = false;
-      }
-    }
-    ros::spinOnce();
-    r.sleep();
-  }
+  ros::spin();
 }
 
 }  // namespace initial_pose_publisher
