@@ -40,14 +40,10 @@ InitialPosePublisher::InitialPosePublisher() : private_nh_("~"), wait_for_publis
   pose_to_publish_.pose.pose.orientation.w = quaternion.w();
   pose_to_publish_.pose.covariance.assign(0.0);
   // covariance (Default value is picked from rviz)
-  /*pose_to_publish_.covariance[0] = private_nh_.param<double>("cov_x", 0.25);
-  pose_to_publish_.covariance[7] = private_nh_.param<double>("cov_y", 0.25);
-  pose_to_publish_.covariance[14] = private_nh_.param<double>("cov_z", 0.0);
-  pose_to_publish_.covariance[35] = private_nh_.param<double>("cov_yaw", (M_PI/12.0)*(M_PI/12.0));*/
-  pose_to_publish_.pose.covariance[0] = 0.25;                            // cov of x
-  pose_to_publish_.pose.covariance[7] = 0.25;                            // cov of y
-  pose_to_publish_.pose.covariance[14] = 0.0;                            // cov of z
-  pose_to_publish_.pose.covariance[35] = (M_PI / 12.0) * (M_PI / 12.0);  // cov of yaw
+  pose_to_publish_.pose.covariance[0] = private_nh_.param<double>("cov_x", 0.25);
+  pose_to_publish_.pose.covariance[7] = private_nh_.param<double>("cov_y", 0.25);
+  pose_to_publish_.pose.covariance[14] = private_nh_.param<double>("cov_z", 0.0);
+  pose_to_publish_.pose.covariance[35] = private_nh_.param<double>("cov_yaw", (M_PI/12.0)*(M_PI/12.0));
 
   // Advertise
   initial_pose_publisher_ = private_nh_.advertise<geometry_msgs::PoseWithCovarianceStamped>("/initialpose", 1, true);
